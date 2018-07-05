@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+  #residente{
+      top:64px !important;
+  }
+  #visita{
+      top:64px !important;
+  }
+  #Estacionamiento{
+   top:64px !important;
+  }
+  #camaras{
+    top:64px !important; 
+  }
+  #Registro{
+    top:64px !important;
+  }
+  #personal{
+    top:64px !important;
+  }
+  #informe{
+      top:64px !important;
+  }
+  #residentes{
+    top:64px !important;
+  }
+  #bt_login{
+    width:200px;
+    height:40px;
+    }
+  
+  #c{display:none;}
+
+  .toast{
+          right: 200%;
+  }
