@@ -3,8 +3,7 @@ $(function () {
         "forceNew": true
     });
     
-    //h
-
+   
     $(document).ready(function () {
         $('select').material_select();
         cargarCondominio("#rut_c");
