@@ -36,28 +36,20 @@
         </div>  
 
         <ul id="camaras" class="dropdown-content">
-            <li><a href="<?php echo base_url(); ?>camaraenvivo">en vivo</a></li>
-            <li class="divider"></li>
-            <li><a href="#!">Grabaciones</a></li>
+            <li><a href="<?php echo base_url(); ?>camaraenvivo">En Vivo</a></li>
             <li class="divider"></li>
 
         </ul>
         <ul id="Estacionamiento" class="dropdown-content  ">
             <li><a href="<?php echo base_url(); ?>administrador">Estacionamiento</a></li>
             <li class="divider"></li>
-            <li><a href="#!">Editar</a></li>
+            <li><a href="<?php echo base_url(); ?>editarEstacionamiento">Editar </a></li>
             <li class="divider"></li>
-            <li><a href="<?php echo base_url(); ?>eresidente">Estacionamiento Residente</a></li>
-            <li class="divider"></li>
-
-        </ul>
-        <ul id="informe" class="dropdown-content">
-            <li><a href="#!">Crear</a></li>
-            <li class="divider"></li>
-            <li><a href="#!">Ver</a></li>
+            <li><a href="<?php echo base_url(); ?>buscarVehiculo">Buscar Vehiculo</a></li>
             <li class="divider"></li>
 
         </ul>
+        
         <ul id="personal" class="dropdown-content">
             <li><a href="<?php echo base_url(); ?>registrar">Registrar</a></li>
             <li class="divider"></li>
@@ -68,9 +60,9 @@
         <ul id="residente" class="dropdown-content">
             <li><a href="<?php echo base_url(); ?>crearrv">Registrar </a></li>
             <li class="divider"></li>
-            <li><a href="<?php echo base_url(); ?>regres">Registrar2 </a></li>
-            <li class="divider"></li>
             <li><a href="<?php echo base_url(); ?>editarrv">Editar </a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo base_url(); ?>vehiculoRe">Vehiculo </a></li>
             <li class="divider"></li>
 
         </ul>
@@ -86,12 +78,13 @@
             <li class="divider"></li>
             <li><a href="<?php echo base_url(); ?>deshabilitare">Deshabilitar Edificio </a></li>
             <li class="divider"></li>
+            
 
         </ul>
         <ul id="departamento" class="dropdown-content">
-            <li><a href="<?php echo base_url(); ?>crearvisita">Habilitar Departamento </a></li>
+            <li><a href="<?php echo base_url(); ?>habilitardepartamento">Habilitar Departamento </a></li>
             <li class="divider"></li>
-            <li><a href="<?php echo base_url(); ?>mostrarvisitas">Deshabilitar Departamento </a></li>
+            <li><a href="<?php echo base_url(); ?>deshabilitardepartamento">Deshabilitar Departamento </a></li>
             <li class="divider"></li>
 
         </ul>
@@ -103,7 +96,6 @@
                 <ul class="center hide-on-med-and-down ">
                     <li><a class="dropdown-button " href="#!" data-activates="Estacionamiento">Estacionamiento<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#!" data-activates="camaras">Cámaras<i class="material-icons right">arrow_drop_down</i></a></li>
-                    <li><a class="dropdown-button" href="#!" data-activates="informe">Informe<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#!" data-activates="personal">Personal<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#!" data-activates="residente">Residente<i class="material-icons right">arrow_drop_down</i></a></li>
                     <li><a class="dropdown-button" href="#!" data-activates="visita">Visita<i class="material-icons right">arrow_drop_down</i></a></li>

@@ -1,3 +1,5 @@
+<div class="col s8 offset-s2">
+
 <img src="" id="img">
         <video id="v"></video>
         <canvas id="c"></canvas>
@@ -29,3 +31,4 @@
                 });
             }
         </script>
+</div>

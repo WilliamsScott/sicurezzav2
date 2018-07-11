@@ -1,4 +1,4 @@
-<div id="modalconfirmar" class="modal black white-text" >
+<div id="modalconfirmar" class="modal white-text" style="background-color: rgba(20,80,140,0.9)" >
     <div class="modal-content">
 
         <div class="row">
@@ -8,7 +8,7 @@
                     <p class="center">
                     <h3>¿Desea eliminar Residente?</h3>
                     <div class="col s6 center">
-                        <button class="btn green">cancelar</button>
+                        <button type="submit" id='bt_cancelarmodal' class="btn green">cancelar</button>
                     </div>
                     <div class="col s6 center">
                         <button type="submit" id='bt_drv' class="btn red">eliminar</button> 
@@ -28,34 +28,42 @@
 </div>
 
 
-<div id="modalrv" class="modal black white-text" >
-    <a class="btn-floating red right" id="cerrarmodale"><i class="material-icons">close</i></a>
+<div id="modalrv" class="modal white-text" style="background-color: rgba(20,80,140,0.9)" >
+    <a class="btn-floating  right" id="cerrarmodale"><i class="material-icons">close</i></a>
     <div class="modal-content">
         <p>
         <form method="post">
             <h5 class="center">Editar Residente</h5>
             <input type="hidden" id='rut_rv'/>
-            <label>Nombre</label>
+            <label class="white-text">Nombre</label>
             <input id='nombre_rv' type="text"  readonly="">
-            <label>Apellido</label>
+            <label class="white-text">Apellido</label>
             <input id='apellido_rv' type="text" readonly="" >
-            <label>Edificio</label>
+            <label class="white-text">Edificio</label>
             <select id="edificio_rv">
 
             </select>
-            <label>Departamento</label>
+            <br>
+            <label class="white-text">Departamento</label>
             <select id="departamento_rv">
 
             </select>
-            <label for="telefono_rv">Telefono</label>
+            <br>
+            <label class="white-text">Telefono</label>
             <input id='telefono_rv' type="text"  >
-
-
-
-            <button type="submit" id='bt_erv' class='btn light-blue darken-4'>
+            <div class="col">
+                <br>
+                <label class="white-text">Vehiculo</label>
+                <a href="<?php echo base_url(); ?>vehiculoRe" class="btn-floating waves-effect green"><i class='material-icons green'>directions_car</i></a>
+                 
+                <br><br>
+            </div>
+                
+                
+            <button type="submit" id='bt_erv' class='btn light-blue  right'>
                 Editar
             </button>
-
+            <br><br>
         </form>
         </p>
     </div>   
@@ -65,7 +73,9 @@
 <div class='container'>
 
     <div class="row">
-        <div class="col s12">
+         <br>
+        <div class="col s12" style="background-color: rgba(20,80,155,0.5)" >
+           
             <h4 class="center-align white-text">Editar Residente</h4>
 
             <!-- Modal Trigger -->
@@ -94,6 +104,7 @@
 
                 </tbody>
             </table>
+            <br>
         </div>
     </div>
 </div>

@@ -85,6 +85,26 @@ class Administrador extends CI_Controller {
             redirect("index");
         }
     }
+    
+    public function habilitardepartamento() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/habilitardepartamento');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+    
+    public function deshabilitardepartamento() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/deshabilitardepartamento');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
 
     public function deshabilitare() {
         if ($this->session->userdata("administrador")) {
@@ -126,10 +146,50 @@ class Administrador extends CI_Controller {
         }
     }
 
+    public function paginacionrafa() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('rafa');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+
     public function mostrarvisitas() {
         if ($this->session->userdata("administrador")) {
             $this->load->view('templates/header');
             $this->load->view('administrador/mostrarvisitas');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+
+    public function editarEstacionamiento() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/editarestacionamiento');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+
+    public function buscarVehiculo() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/buscarvehiculo');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+
+    public function vehiculoRe() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/vehiculoresidente');
             $this->load->view('templates/footer');
         } else {
             redirect("index");
@@ -181,13 +241,14 @@ class Administrador extends CI_Controller {
         $telefono = $this->input->post("telefono");
         $edificio = $this->input->post("edificio");
         $departamento = $this->input->post("departamento");
+        $usuario = $this->input->post("usuario");
         $cantidad = sizeof($this->usuario->buscarV($rut));
         if ($cantidad > 0) {
-            $this->usuario->updateVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento);
+            $this->usuario->updateVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento, $usuario);
             echo json_encode(array("msg" => "Registro exitoso"));
         } else {
 
-            $this->usuario->crearVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento);
+            $this->usuario->crearVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento, $usuario);
             echo json_encode(array("msg" => "Registro exitoso"));
         }
     }
@@ -237,6 +298,22 @@ class Administrador extends CI_Controller {
         echo json_encode($this->usuario->departamento2());
     }
 
+    public function estacionamientosv() {
+
+        echo json_encode($this->usuario->estacionamientosv());
+    }
+    
+    public function key() {
+        $rut=  $this->input->post("rut");
+        $cantidad= sizeof($this->usuario->bkey($rut));
+        if ($cantidad>0) {
+             echo json_encode($this->usuario->bkey($rut));
+        }  else {
+            echo json_encode(array("msg"=>"0"));
+        }
+       
+    }
+
     public function usuarios() {
         echo json_encode($this->usuario->usuarios());
     }
@@ -256,18 +333,43 @@ class Administrador extends CI_Controller {
         $telefono = $this->input->post("telefono");
         $edificio = $this->input->post("edificio");
         $departamento = $this->input->post("departamento");
+        $usuario = $this->input->post("usuario");
         $cantidad = sizeof($this->usuario->buscarV($rut));
         if ($cantidad > 0) {
-            $this->usuario->updateVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento);
+            $this->usuario->updateVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento, $usuario);
         } else {
-            $this->usuario->crearVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento);
+            $this->usuario->crearVisita($rut, $nombre, $apellido, $telefono, $edificio, $departamento, $usuario);
         }
 
         $patente = $this->input->post("patente");
         $marca = $this->input->post("marca");
+        $modelo = $this->input->post("modelo");
         $numero = $this->input->post("numero");
 
-        $this->usuario->rvehiculoV($rut, $patente, $marca, $numero);
+        $this->usuario->rvehiculoV($rut, $patente, $marca, $modelo, $numero);
+
+        echo json_encode(array("msg" => "Registrados con exito"));
+    }
+
+    public function residenteyvehiculo() {
+        $rut = $this->input->post("rut");
+        $nombre = $this->input->post("nombre");
+        $apellido = $this->input->post("apellido");
+        $edificio = $this->input->post("edificio");
+        $departamento = $this->input->post("departamento");
+        $telefono = $this->input->post("telefono");
+
+        $cantidad = sizeof($this->usuario->buscarRv($rut));
+        if ($cantidad == 0) {
+            $this->usuario->crearResidente($rut, $nombre, $apellido, $edificio, $departamento, $telefono);
+        }
+
+        $patente = $this->input->post("patente");
+        $marca = $this->input->post("marca");
+        $modelo = $this->input->post("modelo");
+        $numero = $this->input->post("numero");
+
+        $this->usuario->rvehiculoR($rut, $patente, $marca, $modelo, $numero);
 
         echo json_encode(array("msg" => "Registrados con exito"));
     }
@@ -306,6 +408,77 @@ class Administrador extends CI_Controller {
         }
     }
 
+    public function buscarResidenteVehiculo() {
+        $rut = $this->input->post("rut");
+        $cantidad = sizeof($this->usuario->buscarResve($rut));
+        if ($cantidad > 0) {
+            echo json_encode($this->usuario->buscarResve($rut));
+        } else {
+            echo json_encode(array("msg" => "0"));
+        }
+    }
+
+    public function buscarUsuarioEditar() {
+        $usuario = $this->input->post("usuario");
+        $cantidad = sizeof($this->usuario->buscarUsuarioEditar($usuario));
+        if ($cantidad > 0) {
+            echo json_encode($this->usuario->buscarUsuarioEditar($usuario));
+        } else {
+            echo json_encode(array("msg" => "0"));
+        }
+    }
+
+    public function agregarestacionamiento() {
+        $numero = $this->input->post("numero");
+        $nombre = $this->input->post("nombre");
+        $residente = $this->input->post("residente");
+        $cantidad = sizeof($this->usuario->buscarRv($residente));
+        $cantidad2 = sizeof($this->usuario->buscarE($numero));
+        if ($cantidad2 == 0) {
+            if ($cantidad > 0) {
+                echo json_encode($this->usuario->agregarEstacionamiento($numero, $nombre, $residente));
+            } else {
+                echo json_encode(array("msg" => "0"));
+            }
+        } else {
+            echo json_encode(array("msg" => "1"));
+        }
+    }
+
+    public function agregarestacionamientov() {
+        $numero = $this->input->post("numero");
+        $nombre = $this->input->post("nombre");
+        $estado = $this->input->post("estado");
+        $cantidad = sizeof($this->usuario->buscarEV($numero));
+        if ($cantidad > 0) {
+            echo json_encode(array("msg" => "1"));
+        } else {
+            echo json_encode($this->usuario->agregarEstacionamientoV($numero, $nombre, $estado));
+        }
+    }
+
+    public function quitarestacionamiento() {
+        $numero = $this->input->post("numero");
+        $cantidad = sizeof($this->usuario->buscarE($numero));
+        if ($cantidad > 0) {
+            $this->usuario->eliminarEstacionamiento($numero);
+            echo json_encode(array("msg" => "Eliminado con exito"));
+        } else {
+            echo json_encode(array("msg" => "No existe"));
+        }
+    }
+
+    public function quitarestacionamientov() {
+        $numero = $this->input->post("numero");
+        $cantidad = sizeof($this->usuario->buscarEV($numero));
+        if ($cantidad > 0) {
+            $this->usuario->eliminarEstacionamiento($numero);
+            echo json_encode(array("msg" => "Eliminado con exito"));
+        } else {
+            echo json_encode(array("msg" => "No existe"));
+        }
+    }
+
     public function editarUsuario() {
         $rut = $this->input->post("rut");
         $nombre = $this->input->post("nombre");
@@ -332,14 +505,71 @@ class Administrador extends CI_Controller {
     public function habilitare() {
         $codigo = $this->input->post("codigo");
         $nombre = $this->input->post("nombre");
-        $this->usuario->habilitarEdificio($codigo, $nombre);
-        echo json_encode(array("msg" => "Edificio Habilitado"));
+        $cantidad = sizeof($this->usuario->buscarEdificio($codigo));
+        if ($cantidad > 0) {
+            echo json_encode(array("msg" => "1"));
+        } else {
+            echo json_encode($this->usuario->habilitarEdificio($codigo, $nombre));
+        }
+    }
+    
+     public function habilitarDepa() {
+        $id = $this->input->post("id");
+        $estado = $this->input->post("estado");
+        $edificio=  $this->input->post("edificio");
+        $cantidad = sizeof($this->usuario->buscarEdificio($id));
+        if ($cantidad > 0) {
+            $estado2=1;
+            $this->usuario->updateDepa($id, $estado2);
+            echo json_encode(array("msg" => "El Departemento existia y ha sido habilitado"));
+        } else {
+            $this->usuario->insertDepa($id, $estado,$edificio);
+            echo json_encode(array("msg" => "Departamento Habilitado"));
+        }
     }
 
     public function deshabilitaredificio() {
         $codigo = $this->input->post("codigo");
-        $this->usuario->deshabilitarEd($codigo);
-        echo json_encode(array("msg" => "Edificio Deshabilitado"));
+        $cantidad = sizeof($this->usuario->buscarEdificio($codigo));
+        if ($cantidad > 0) {
+            echo json_encode($this->usuario->deshabilitarEd($codigo));
+        } else {
+            echo json_encode(array("msg" => "0"));
+        }
+    }
+
+    public function cargarRafa() {
+        $todas = $this->usuario->visitas();
+        $numeroVisitas = sizeof($todas);
+        $totalpaginas = ceil($numeroVisitas / 2); //Por la cantidad de datos por pag 
+        $primera = array_slice($todas, 0, 2);
+        echo json_encode(array("visitas" => $primera, "paginas" => $totalpaginas));
+    }
+
+    public function cargarRafa2() {
+        $fecha = $this->input->post("fecha");
+        $todas = $this->usuario->buscarVF2($fecha);
+        $numeroVisitas = sizeof($todas);
+        $totalpaginas = ceil($numeroVisitas / 2); //Por la cantidad de datos por pag 
+        $primera = array_slice($todas, 0, 2);
+        echo json_encode(array("visitas" => $primera, "paginas" => $totalpaginas));
+    }
+
+    public function cambiarRafa() {
+        $pagina = $this->input->post("pagina");
+        $todas = $this->usuario->visitas();
+        $calculo1 = ($pagina - 1) * 2; //Por la cantidad que quiero por pagina :D
+        $primera = array_slice($todas, $calculo1, 2);
+        echo json_encode($primera);
+    }
+
+    public function cambiarRafa2() {
+        $fecha = $this->input->post("fecha");
+        $pagina = $this->input->post("pagina");
+        $todas = $this->usuario->buscarVF2($fecha);
+        $calculo1 = ($pagina - 1) * 2; //Por la cantidad que quiero por pagina :D
+        $primera = array_slice($todas, $calculo1, 2);
+        echo json_encode($primera);
     }
 
     public function eliminarUsuario() {
@@ -350,8 +580,24 @@ class Administrador extends CI_Controller {
 
     public function eliminarRv() {
         $rut = $this->input->post("rut");
-        $this->usuario->eliminarRv($rut);
-        echo json_encode(array("msg" => "Residente eliminado"));
+        try {
+            $this->usuario->eliminarVRv($rut);
+            $this->usuario->eliminarERv($rut);
+            $this->usuario->eliminarRv($rut);
+            echo json_encode(array("msg" => "Residente eliminado"));
+        } catch (Exception $ex) {
+            echo json_encode(array("msg" => "Error"));
+        }
+    }
+
+    public function eliminarVehiculoResidente() {
+        $patente = $this->input->post("patente");
+        try {
+            $this->usuario->eliminarVehiculoR($patente);
+            echo json_encode(array("msg" => "Vehiculo eliminado"));
+        } catch (Exception $ex) {
+            echo json_encode(array("msg" => "Error"));
+        }
     }
 
     public function editaruser() {
@@ -413,6 +659,22 @@ class Administrador extends CI_Controller {
 
         $this->usuario->rvehiculoR($residente, $patente, $marca, $modelo, $numero);
         echo json_encode(array("msg" => "Vehiculo Residente Registrado"));
+    }
+
+    public function buscarVehiculoPatente() {
+        $patente = $this->input->post("patente");
+        $cantidad = sizeof($this->usuario->buscarVehiculo($patente));
+        if ($cantidad == 0) {
+            $cantidad2 = sizeof($this->usuario->buscarVehiculo2($patente));
+
+            if ($cantidad2 > 0) {
+                echo json_encode($this->usuario->buscarVehiculo2($patente));
+            } else {
+                echo json_encode(array("msg" => "0"));
+            }
+        } else {
+            echo json_encode($this->usuario->buscarVehiculo($patente));
+        }
     }
 
 }

@@ -6,7 +6,7 @@
             <div class="col s12">
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
-                        <span class="card-title">Iniciar Sesion</span>
+                        <span class="card-title">Iniciar Sesión</span>
                         <form>
                             <div class="row s12">
                                 <div class="input-field col s6">

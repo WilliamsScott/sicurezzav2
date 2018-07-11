@@ -1,13 +1,14 @@
-
-
+<?php
+$user = $this->session->userdata("administrador");
+?>
 <div class="row">
     <div class="col s12">
         <div class="container">
             <br>
-            <div class="col s6 offset-s3 black">
+            <div class="col s6 offset-s3" style="background-color: rgba(20,80,155,0.5)" >
                 <h3 class="center white-text">Registrar Visita</h3>
                 <form id="regvis" >
-                    <div class="input-field">
+                    <div class="input-field ">
                         <input placeholder="Rut" id="rutvis" type="text" class="validate white-text" required>
 
                     </div>
@@ -32,6 +33,7 @@
                         </select>
                         <label class="white-text">Departamento</label>
                     </div>
+                    <input id="usr" class="white-text" value="<?php echo $user[0]->rut; ?>" hidden=""/>
 
                     <div class="col s6 offset-s3">
                         <h6 class="white-text">Vehiculo</h6>
@@ -47,11 +49,15 @@
                     <div class="col s12" style="display:none" id="agregarvehiculov">
                         <h5 class="center white-text">Agregar Vehiculo</h5>
                         <label for="patentev" class="white-text">Patente</label>
-                        <input type="text" id="patentev"/>
+                        <input type="text" class="white-text" id="patentev" />
                         <label for="marcavv" class="white-text">Marca</label>
-                        <input type="text" id="marcavv"/>
+                        <input type="text" class="white-text" id="marcavv"/>
+                        <label for="modelovv" class="white-text">Modelo</label>
+                        <input type="text" class="white-text" id="modelovv"/>
                         <label for="numeroev" class="white-text">Numero Estacionamiento</label>
-                        <input type="text" id="numeroev"/>
+                        <select id="numeroev" class="white-text">
+                            
+                        </select>
 
                     </div>
 

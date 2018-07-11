@@ -5,7 +5,7 @@
         <div class="container center">
            
             <h3 class="white-text">Control Estacionamiento</h3>
-            <img class="center"src="esta.jpg" width="500">
+            <img class="center" src="esta.jpg" width="500">
         </div>
     </div>
 </div>

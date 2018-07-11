@@ -3,9 +3,9 @@
     <div class="col s12">
         <div class="container">
             <br>
-            <div class="col s6 offset-s3 black">
+            <div class="col s6 offset-s3" style="background-color: rgba(20,80,155,0.5)" >
                 <h3 class="center white-text">Registro Residente</h3>
-                <form>
+                <form id="regres">
                     <div class="input-field ">
                         <input placeholder="Rut" id="rutres" type="text" class="validate white-text" required>
                     </div>
@@ -42,14 +42,16 @@
                         </label>
                     </div>
                 </div>
-                <div class="col 12" style="display:none" id="agregarvehiculor">
+                <div class="col s12" style="display:none" id="agregarvehiculor">
                     <h5 class="center white-text">Agregar Vehiculo</h5>
                     <label for="patenter" class="white-text">Patente</label>
-                    <input type="text" id="patenter"/>
+                    <input class="white-text" type="text" id="patenter"/>
                     <label for="marcavr" class="white-text">Marca</label>
-                    <input type="text" id="marcavr"/>
+                    <input class="white-text" type="text" id="marcavr"/>
+                    <label for="modelor" class="white-text">Modelo</label>
+                    <input class="white-text" type="text" id="modelor"/>
                     <label for="numeroer" class="white-text">Numero Estacionamiento</label>
-                    <input type="text" id="numeroer"/>
+                    <input class="white-text" type="text" id="numeroer"/>
                     
                 </div>
                     <br>
