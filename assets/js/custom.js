@@ -2,6 +2,8 @@ $(function () {
     var socket = io.connect("http://localhost:1997/", {
         "forceNew": true
     });
+    
+    //h
 
     $(document).ready(function () {
         $('select').material_select();
