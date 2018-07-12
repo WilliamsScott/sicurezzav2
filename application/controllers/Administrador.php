@@ -45,6 +45,16 @@ class Administrador extends CI_Controller {
             redirect("index");
         }
     }
+    
+    public function verreportes() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view("templates/header");
+            $this->load->view("administrador/reportes");
+            $this->load->view("templates/footer");
+        } else {
+            redirect("index");
+        }
+    }
 
     public function crearuser() {
         if ($this->session->userdata("administrador")) {
@@ -85,7 +95,7 @@ class Administrador extends CI_Controller {
             redirect("index");
         }
     }
-    
+
     public function habilitardepartamento() {
         if ($this->session->userdata("administrador")) {
             $this->load->view('templates/header');
@@ -95,7 +105,17 @@ class Administrador extends CI_Controller {
             redirect("index");
         }
     }
-    
+
+    public function editarusuariohabilitar() {
+        if ($this->session->userdata("administrador")) {
+            $this->load->view('templates/header');
+            $this->load->view('administrador/habilitarusuario');
+            $this->load->view('templates/footer');
+        } else {
+            redirect("index");
+        }
+    }
+
     public function deshabilitardepartamento() {
         if ($this->session->userdata("administrador")) {
             $this->load->view('templates/header');
@@ -206,7 +226,7 @@ class Administrador extends CI_Controller {
         $tipo = $this->input->post("tipo");
         $cantidad = sizeof($this->usuario->buscarUsuario($rut));
         if ($cantidad > 0) {
-            echo json_encode(array("msg" => "error el rut ya esta registrado"));
+            echo json_encode(array("msg" => "Error, el rut ya esta registrado"));
         } else {
 
             $this->usuario->crearUsuario($rut, $nombre, $apellido, $direccion, $correo, md5($clave), $tipo);
@@ -226,7 +246,7 @@ class Administrador extends CI_Controller {
 
         $cantidad = sizeof($this->usuario->buscarRv($rut));
         if ($cantidad > 0) {
-            echo json_encode(array("msg" => "error el rut ya esta registrado"));
+            echo json_encode(array("msg" => "Error, el rut ya esta registrado"));
         } else {
 
             $this->usuario->crearRv($rut, $nombre, $apellido, $edificio, $departamento, $vehiculo, $telefono);
@@ -273,7 +293,7 @@ class Administrador extends CI_Controller {
         $telefono = $this->input->post("telefono");
         $cantidad = sizeof($this->usuario->buscarRv($rut));
         if ($cantidad > 0) {
-            echo json_encode(array("msg" => "error el rut ya esta registrado"));
+            echo json_encode(array("msg" => "Error, el rut ya esta registrado"));
         } else {
             $this->usuario->crearResidente($rut, $nombre, $apellido, $edificio, $departamento, $telefono);
             echo json_encode(array("msg" => "Registro exitoso"));
@@ -287,6 +307,10 @@ class Administrador extends CI_Controller {
     public function edificios() {
         echo json_encode($this->usuario->edificio());
     }
+    
+    public function report() {
+        echo json_encode(array("msg"=>$this->usuario->contar()));
+    }
 
     public function departamentos() {
         $edificio = $this->input->post("edificio");
@@ -297,21 +321,24 @@ class Administrador extends CI_Controller {
 
         echo json_encode($this->usuario->departamento2());
     }
+    public function departamentos3() {
+
+        echo json_encode($this->usuario->departamento3());
+    }
 
     public function estacionamientosv() {
 
         echo json_encode($this->usuario->estacionamientosv());
     }
-    
+
     public function key() {
-        $rut=  $this->input->post("rut");
-        $cantidad= sizeof($this->usuario->bkey($rut));
-        if ($cantidad>0) {
-             echo json_encode($this->usuario->bkey($rut));
-        }  else {
-            echo json_encode(array("msg"=>"0"));
+        $rut = $this->input->post("rut");
+        $cantidad = sizeof($this->usuario->bkey($rut));
+        if ($cantidad > 0) {
+            echo json_encode($this->usuario->bkey($rut));
+        } else {
+            echo json_encode(array("msg" => "0"));
         }
-       
     }
 
     public function usuarios() {
@@ -348,7 +375,7 @@ class Administrador extends CI_Controller {
 
         $this->usuario->rvehiculoV($rut, $patente, $marca, $modelo, $numero);
 
-        echo json_encode(array("msg" => "Registrados con exito"));
+        echo json_encode(array("msg" => "Registro exitoso"));
     }
 
     public function residenteyvehiculo() {
@@ -371,7 +398,7 @@ class Administrador extends CI_Controller {
 
         $this->usuario->rvehiculoR($rut, $patente, $marca, $modelo, $numero);
 
-        echo json_encode(array("msg" => "Registrados con exito"));
+        echo json_encode(array("msg" => "Registro exitoso"));
     }
 
     public function residentes() {
@@ -504,27 +531,35 @@ class Administrador extends CI_Controller {
 
     public function habilitare() {
         $codigo = $this->input->post("codigo");
-        $nombre = $this->input->post("nombre");
-        $cantidad = sizeof($this->usuario->buscarEdificio($codigo));
+        $this->usuario->habilitarEdificio($codigo);
+        echo json_encode(array("msg" => "1"));
+    }
+
+    public function ehabilitarUsuario() {
+        $rut = $this->input->post("rut");
+        echo json_encode($this->usuario->habilitarUsuario($rut));
+        echo json_encode(array("msg" => "1"));
+    }
+
+    public function habilitarDepa() {
+        $id = $this->input->post("id");
+        $cantidad = sizeof($this->usuario->buscarDepartamento($id));
         if ($cantidad > 0) {
-            echo json_encode(array("msg" => "1"));
+            $this->usuario->updateDepa($id);
+            echo json_encode(array("msg" => "Departamento Habilitado"));
         } else {
-            echo json_encode($this->usuario->habilitarEdificio($codigo, $nombre));
+            echo json_encode(array("msg" => "Departamento no existe"));
         }
     }
     
-     public function habilitarDepa() {
+    public function deshabilitarDepa() {
         $id = $this->input->post("id");
-        $estado = $this->input->post("estado");
-        $edificio=  $this->input->post("edificio");
-        $cantidad = sizeof($this->usuario->buscarEdificio($id));
+        $cantidad = sizeof($this->usuario->buscarDepartamento($id));
         if ($cantidad > 0) {
-            $estado2=1;
-            $this->usuario->updateDepa($id, $estado2);
-            echo json_encode(array("msg" => "El Departemento existia y ha sido habilitado"));
+            $this->usuario->deshabilitarDepa($id);
+            echo json_encode(array("msg" => "Departamento Deshabilitado"));
         } else {
-            $this->usuario->insertDepa($id, $estado,$edificio);
-            echo json_encode(array("msg" => "Departamento Habilitado"));
+            echo json_encode(array("msg" => "Departamento no existe"));
         }
     }
 
@@ -575,7 +610,7 @@ class Administrador extends CI_Controller {
     public function eliminarUsuario() {
         $rut = $this->input->post("rut");
         $this->usuario->eliminarUsuario($rut);
-        echo json_encode(array("msg" => "Usuario eliminado"));
+        echo json_encode(array("msg" => "Usuario Deshabilitado"));
     }
 
     public function eliminarRv() {

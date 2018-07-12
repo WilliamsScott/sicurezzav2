@@ -55,6 +55,8 @@
             <li class="divider"></li>
             <li><a href="<?php echo base_url(); ?>editarusuario">Editar</a></li>
             <li class="divider"></li>
+            <li><a href="<?php echo base_url(); ?>editarusuariohabilitar">Habilitar</a></li>
+            <li class="divider"></li>
 
         </ul>
         <ul id="residente" class="dropdown-content">
@@ -118,8 +120,6 @@
 
                 <li><a href="#" class="dropdown-button white-text"data-activates="edificio">Edificio</a></li>
                 <li><a href="#" class="dropdown-button white-text"data-activates="departamento">Departamento</a></li>
-                <li><a href="#" class="white-text">Dueño</a></li>
-                <li><a href="#" class="white-text">Arrendatario</a></li>
             </ul>
 
         </div>

@@ -6,13 +6,13 @@
                 <form method="post">
                     <input type="hidden" id='rut_erv'/>
                     <p class="center">
-                    <h3>¿Desea eliminar Usuario?</h3>
+                    <h3>¿Desea Deshabilitar Usuario?</h3>
                     <div class="col s6 center">
                         <button type="submit" id='bt_cancelarmodalcu' class="btn green darken-1">cancelar</button>
                     </div>
                     <div class="col s6 center">
                         <button type="submit" id='bt_deleteu' class='btn red darken-2 right'>
-                            Eliminar
+                            Deshabilitar
                         </button>
                     </div>
                     </p>
@@ -29,9 +29,12 @@
 
 </div>
 <div id="modal2" class="modal white-text" style="background-color: rgba(20,80,140,0.9)" >
+     <a class="btn-floating  right" id="cerrarmodaledituser"><i class="material-icons">close</i></a>
     <div class="modal-content">
+       
         <p>
         <form method="post">
+           
             <h5 class="center">Editar Usuario</h5>
             <input type="hidden" id='rut_e'/>
             <label class="white-text">Nombre</label>
@@ -87,7 +90,7 @@
                         <th>Tipo</th>
                         <th>Correo</th>
                         <th>Modificar</th>
-                        <th>Eliminar</th>
+                        <th>Deshabilitar</th>
                     </tr>
                 </thead>
                 <tbody id='bodyusuario'>

@@ -106,15 +106,14 @@ class Usuario extends CI_Model {
         return $this->db->insert("vehiculor", $data);
     }
 
-    public function habilitarEdificio($codigo, $nombre) {
-        $data = array("codigo" => $codigo, "nombre" => $nombre);
-        return $this->db->insert("edificio", $data);
+    public function habilitarEdificio($codigo) {
+        $e=  $this->db->query("update edificio set estado='0' where codigo ='$codigo'");
+        return $e;
     }
 
     public function deshabilitarEd($codigo) {
-        $data = array("estado" => 0);
-        $this->db->where("codigo", $codigo);
-        return $this->db->update("edificio", $data);
+        $e=  $this->db->query("update edificio set estado='1' where codigo ='$codigo'");
+        return $e;
     }
 
     public function condominio() {
@@ -132,6 +131,11 @@ class Usuario extends CI_Model {
 
     public function departamento2() {
         return $this->db->get('departamento')->result();
+    }
+    
+    public function departamento3() {
+       $x = $this->db->query("SELECT * FROM departamento");
+        return $x->result();
     }
 
     public function estacionamientosv() {
@@ -160,12 +164,14 @@ class Usuario extends CI_Model {
         return $this->db->update("residente", $data);
     }
     
-    public function updateDepa($id, $estado2) {
-        //buscar por id
-        $this->db->where("id", $id);
-        //armar la data a actualizar
-        $data = array("id"=>$id,"estado"=>$estado2);
-        return $this->db->update("departamento", $data);
+    public function updateDepa($id) {
+        $d=  $this->db->query("update departamento set estado='0' where id ='$id'");
+        return $d;
+    }
+    
+    public function deshabilitarDepa($id) {
+        $d=  $this->db->query("update departamento set estado='1' where id ='$id'");
+        return $d;
     }
     public function insertDepa($id, $estado, $edificio) {
        
@@ -175,8 +181,13 @@ class Usuario extends CI_Model {
     }
 
     public function eliminarUsuario($rut) {
-        $this->db->where('rut', $rut);
-        return $this->db->delete('usuario');
+        $u=  $this->db->query("update usuario set estado='0' where rut ='$rut'");
+        return $u;
+    }
+    
+    public function habilitarUsuario($rut) {
+        $u=  $this->db->query("update usuario set estado='1' where rut ='$rut'");
+        return $u;
     }
 
     public function eliminarRv($rut) {
@@ -252,6 +263,11 @@ JOIN edificio ON edificio.codigo = residente.edificio");
 FROM visita
 JOIN edificio ON edificio.codigo = visita.edificio
 JOIN usuario ON usuario.rut = visita.usuario WHERE fecha LIKE '$fecha%'");
+        return $x->result();
+    }
+    
+    public function contar() {
+        $x = $this->db->query("select count(*) as 'residentes' from residente");
         return $x->result();
     }
 

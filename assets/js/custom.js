@@ -2,8 +2,8 @@ $(function () {
     var socket = io.connect("http://localhost:1997/", {
         "forceNew": true
     });
-    
-   
+
+
     $(document).ready(function () {
         $('select').material_select();
         cargarCondominio("#rut_c");
@@ -14,10 +14,14 @@ $(function () {
         cargarEdificioV("#edificiovis");
         cargarEdificio3("#edificio_rv");
         cargarEdificioD("#edificiohdepto");
+        cargarEdificioH("#codigoEdificio");
+        cargarEdificioDH("#codigoEdificio2");
         cargarDepartamentoR("#departamentores");
         cargarDepartamento2("#departamentovis");
         cargarDepartamento("#departamentoresidente");
         cargarDepartamento3("#departamento_rv");
+        cargarDepto("#idDepartamento");
+        cargarDeptoD("#idDepartamentod");
         cargarEstacionamientosv("#numeroev");
 
         $('.datepicker').pickadate({
@@ -71,7 +75,7 @@ $(function () {
                 data: {rut: rut, clave: clave},
                 success: function (o) {
                     if (o.msg == "404") {
-                        Materialize.toast("Usuario no encontrado", "4000");
+                        Materialize.toast("Usuario o clave incorrectas", "4000");
                     } else {
                         window.location.href = base_url + o.msg;
                     }
@@ -310,6 +314,31 @@ $(function () {
             });
         });
     }
+    function cargarEdificioH() {
+        var url = base_url + "edificios";
+        $.getJSON(url, function (result) {
+            $.each(result, function (i, o) {
+                if (o.estado == "1") {   //Arreglar en la bd pq estado seria 0
+                    $("#codigoEdificio").append(new Option(o.nombre, o.codigo));
+                    $('select').material_select();
+                }
+
+            });
+        });
+    }
+
+    function cargarEdificioDH() {
+        var url = base_url + "edificios";
+        $.getJSON(url, function (result) {
+            $.each(result, function (i, o) {
+                if (o.estado == "0") {   //Arreglar en la bd pq estado seria 0
+                    $("#codigoEdificio2").append(new Option(o.nombre, o.codigo));
+                    $('select').material_select();
+                }
+
+            });
+        });
+    }
 
     function cargarEdificioV() {
         var url = base_url + "edificios";
@@ -340,13 +369,38 @@ $(function () {
             });
         });
     }
-
     function cargarDepartamento() {
         var url = base_url + "departamentos";
         $.getJSON(url, function (result) {
             $.each(result, function (i, o) {
                 $("#departamentoresidente").append(new Option(o.id, o.id));
                 $('select').material_select();
+            });
+        });
+    }
+
+    function cargarDepto() {
+        var url = base_url + "departamentos3";
+        $.getJSON(url, function (result) {
+            $.each(result, function (i, o) {
+                if (o.estado == "1") { //cambiar aqui tambien
+                    $("#idDepartamento").append(new Option(o.id, o.id));
+                    $('select').material_select();
+                }
+
+            });
+        });
+    }
+
+    function cargarDeptoD() {
+        var url = base_url + "departamentos3";
+        $.getJSON(url, function (result) {
+            $.each(result, function (i, o) {
+                if (o.estado == "0") { //cambiar aqui tambien
+                    $("#idDepartamentod").append(new Option(o.id, o.id));
+                    $('select').material_select();
+                }
+
             });
         });
     }
@@ -499,6 +553,7 @@ $(function () {
     });
 
     usuarios();
+    usuarios2();
     visitas();
     estacionamientos();
     residentes();
@@ -508,17 +563,40 @@ $(function () {
         var url = base_url + "usuarios";
         $.getJSON(url, function (result) {
             $.each(result, function (i, o) {
-                var row = "<tr>";
-                row += "<td>" + o.rut + "</td>";
-                row += "<td>" + o.nombre + "</td>";
-                row += "<td>" + o.apellido + "</td>";
-                row += "<td>" + o.direccion + "</td>";
-                row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
-                row += "<td>" + o.correo + "</td>";
-                row += "<td><a id='bt_editusuario' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
-                row += "<td><a id='bt_elimusuario' class='btn-floating waves-effect red' ><i class='material-icons'>delete</i></a></td>";
-                row += "</tr>";
-                $("#bodyusuario").append(row);
+                if (o.estado == "1") {
+                    var row = "<tr>";
+                    row += "<td>" + o.rut + "</td>";
+                    row += "<td>" + o.nombre + "</td>";
+                    row += "<td>" + o.apellido + "</td>";
+                    row += "<td>" + o.direccion + "</td>";
+                    row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
+                    row += "<td>" + o.correo + "</td>";
+                    row += "<td><a id='bt_editusuario' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
+                    row += "<td><a id='bt_elimusuario' class='btn-floating waves-effect red' ><i class='material-icons'>delete</i></a></td>";
+                    row += "</tr>";
+                    $("#bodyusuario").append(row);
+                }
+            });
+        });
+    }
+
+    function usuarios2() {
+        $("#bodyusuarioh").empty();
+        var url = base_url + "usuarios";
+        $.getJSON(url, function (result) {
+            $.each(result, function (i, o) {
+                if (o.estado == "0") {
+                    var row = "<tr>";
+                    row += "<td>" + o.rut + "</td>";
+                    row += "<td>" + o.nombre + "</td>";
+                    row += "<td>" + o.apellido + "</td>";
+                    row += "<td>" + o.direccion + "</td>";
+                    row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
+                    row += "<td>" + o.correo + "</td>";
+                    row += "<td><a id='habilitaru' class='btn-floating waves-effect green darken-2' ><i class='material-icons'>group_add</i></a></td>";
+                    row += "</tr>";
+                    $("#bodyusuarioh").append(row);
+                }
             });
         });
     }
@@ -540,6 +618,38 @@ $(function () {
         $("#tipo_e").val($(tipo).text());
         $("#correo_e").val($(correo).text());
         $("#modal2").modal('open');
+    });
+
+    $("body").on("click", "#habilitaru", function (e) {
+        e.preventDefault();
+        var rut = $(this).parent().parent().children()[0];
+
+        $("#rut_habilitaru").val($(rut).text());
+        $("#modalhabilitarusuario").modal('open');
+
+    });
+
+    $("#bt_habilitarusuario").on("click", function (e) {
+        var rut = $("#rut_habilitaru").val();
+        $.ajax({
+            url: base_url + "ehabilitarUsuario",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                rut: rut
+            },
+            success: function (o) {
+                if (o.msg == "1") {
+                    Materialize.toast("Usuario Habilitado", "3000");
+                    $("#modalhabilitarusuario").modal('close');
+                }
+            },
+            error: function () {
+                Materialize.toast("Error", "3000");
+                $("#modalhabilitarusuario").modal('close');
+            }
+        });
+
     });
 
     $("body").on("click", "#vehiculovisita", function (e) {
@@ -637,29 +747,32 @@ $(function () {
         var direccion = $("#direccion_e").val();
         var tipo = $("#tipo_e").val();
         var correo = $("#correo_e").val();
+        if (rut == "" || nombre == "" || apellido == "" || direccion == "" || tipo == "" || correo == "") {
+            Materialize.toast("Complete todos los campos", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "editarUsuario",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    rut: rut,
+                    nombre: nombre,
+                    apellido: apellido,
+                    direccion: direccion,
+                    tipo: tipo,
+                    correo: correo
+                },
+                success: function (o) {
+                    Materialize.toast(o.msg, "3000");
+                    usuarios();
+                    $("#modal2").modal('close');
 
-        $.ajax({
-            url: base_url + "editarUsuario",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                rut: rut,
-                nombre: nombre,
-                apellido: apellido,
-                direccion: direccion,
-                tipo: tipo,
-                correo: correo
-            },
-            success: function (o) {
-                Materialize.toast(o.msg, "3000");
-                usuarios();
-                $("#modal2").modal('close');
-
-            },
-            error: function () {
-                Materialize.toast("500", "3000");
-            }
-        });
+                },
+                error: function () {
+                    Materialize.toast("500", "3000");
+                }
+            });
+        }
     });
 
     $("#bt_deleteu").on("click", function (e) {
@@ -896,28 +1009,31 @@ $(function () {
         var edificio = $("#edificio_rv").val();
         var departamento = $("#departamento_rv").val();
         var telefono = $("#telefono_rv").val();
-
-        $.ajax({
-            url: base_url + "editarRev",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                rut: rut,
-                nombre: nombre,
-                apellido: apellido,
-                edificio: edificio,
-                departamento: departamento,
-                telefono: telefono
-            },
-            success: function (o) {
-                Materialize.toast(o.msg, "3000");
-                residentes();
-                $("#modalrv").modal('close');
-            },
-            error: function () {
-                Materialize.toast("500", "3000");
-            }
-        });
+        if (rut == "" || nombre == "" || apellido == "" || edificio || departamento == "" || telefono == "") {
+            Materialize.toast("Complete todos los campos", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "editarRev",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    rut: rut,
+                    nombre: nombre,
+                    apellido: apellido,
+                    edificio: edificio,
+                    departamento: departamento,
+                    telefono: telefono
+                },
+                success: function (o) {
+                    Materialize.toast(o.msg, "3000");
+                    residentes();
+                    $("#modalrv").modal('close');
+                },
+                error: function () {
+                    Materialize.toast("500", "3000");
+                }
+            });
+        }
     });
 
     $("body").on("click", "#bt_confirmar", function (e) {
@@ -967,17 +1083,19 @@ $(function () {
     $("#cerrarmodale").on("click", function (e) {
         $("#modalrv").modal('close');
     });
+    $("#cerrarmodaledituser").on("click", function (e) {
+        $("#modal2").modal('close');
+    });
 
     $("#bt_habilitaredificio").on("click", function (e) {
         e.preventDefault();
         var codigo = $("#codigoEdificio").val();
-        var nombre = $("#nombreEdificio").val();
         var pass1 = $("#acomprobar").val();
         var pass2 = $("#acomprobar2").val();
         var pass3 = $("#acomprobar3").val();
         var x = $.md5(pass2);
 
-        if (codigo === "" || nombre === "") {
+        if (codigo === "" || pass2 == "" || pass3 == "") {
             Materialize.toast("Complete todos los campos", "3000");
         } else {
             if (pass2 === pass3) {
@@ -988,14 +1106,14 @@ $(function () {
                         dataType: 'json',
                         data: {
                             codigo: codigo,
-                            nombre: nombre
                         },
                         success: function (o) {
                             if (o.msg === "1") {
-                                Materialize.toast("Error el codigo ya está en uso", "3000");
-                            } else {
-                                Materialize.toast("Habilitado con exito", "3000");
+                                Materialize.toast("Edificio deshabilitado", "3000");
+                                $("#codigoEdificio").empty();
+                                cargarEdificioH("codigoEdificio");
                                 document.getElementById("formhabilitare").reset();
+
                             }
 
 
@@ -1036,7 +1154,9 @@ $(function () {
                             if (o.msg === "0") {
                                 Materialize.toast("Error, el edificio no existe", "3000");
                             } else {
-                                Materialize.toast("Edificio eliminado", "3000");
+                                Materialize.toast("Edificio deshabilitado", "3000");
+                                $("#codigoEdificio2").empty();
+                                cargarEdificioDH("codigoEdificio2");
                                 document.getElementById("formde").reset();
                             }
 
@@ -1057,15 +1177,12 @@ $(function () {
     $("#bt_habilitardepto").on("click", function (e) {
         e.preventDefault();
         var id = $("#idDepartamento").val();
-        var estado = 0;
-        var edificio = $("#edificiohdepto").val();
-
         var pass1 = $("#acomprobarhdepto").val();
         var pass2 = $("#acomprobarhdepto2").val();
         var pass3 = $("#acomprobarhdepto3").val();
         var x = $.md5(pass2);
 
-        if (id === "" || edificio === "" || pass1 === "" || pass2 === "" || pass3 === "") {
+        if (id === "" || pass1 === "" || pass2 === "" || pass3 === "") {
             Materialize.toast("Complete todos los campos", "3000");
         } else {
             if (pass2 === pass3) {
@@ -1075,12 +1192,14 @@ $(function () {
                         type: 'post',
                         dataType: 'json',
                         data: {
-                            id: id, estado: estado, edificio: edificio
+                            id: id
 
                         },
                         success: function (o) {
                             Materialize.toast(o.msg, "3000");
-
+                            $("#idDepartamento").empty();
+                            cargarDepto("idDepartamento");
+                            document.getElementById("formhabilitarde").reset();
 
                         },
                         error: function () {
@@ -1095,6 +1214,49 @@ $(function () {
             }
         }
     });
+
+
+    $("#bt_deshabilitardepto").on("click", function (e) {
+        e.preventDefault();
+        var id = $("#idDepartamentod").val();
+        var pass1 = $("#acomprobarddepto").val();
+        var pass2 = $("#acomprobarddepto2").val();
+        var pass3 = $("#acomprobarddepto3").val();
+        var x = $.md5(pass2);
+
+        if (id === "" || pass1 === "" || pass2 === "" || pass3 === "") {
+            Materialize.toast("Complete todos los campos", "3000");
+        } else {
+            if (pass2 === pass3) {
+                if (x === pass1) {
+                    $.ajax({
+                        url: base_url + "deshabilitarDepa",
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            id: id
+
+                        },
+                        success: function (o) {
+                            Materialize.toast(o.msg, "3000");
+                            $("#idDepartamentod").empty();
+                            cargarDeptoD("idDepartamentod");
+                            document.getElementById("formdhabilitare").reset();
+
+                        },
+                        error: function () {
+                            Materialize.toast("500", "3000");
+                        }
+                    });
+                } else {
+                    Materialize.toast("La contraseña es incorrecta, intente nuevamente", "3000");
+                }
+            } else {
+                Materialize.toast("Las contraseñas deben coincidir", "3000");
+            }
+        }
+    });
+
 
     $("#buscarresidente").on("click", function (e) {
         e.preventDefault();
@@ -1160,72 +1322,121 @@ $(function () {
 
     $("#buscarreseditar").on("click", function (e) {
         var residente = $("#resib").val();
-        $.ajax({
-            url: base_url + "buscarresidenteeditar",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                residente: residente
-            }, success: function (o) {
-                if (o.msg === "0") {
-                    Materialize.toast("No existen residentes", "4000");
-                    $("#bodyrv").empty();
-                } else {
-                    $("#bodyrv").empty();
-                    $.each(o, function (i, o) {
-                        var row = "<tr>";
-                        row += "<td>" + o.rut + "</td>";
-                        row += "<td>" + o.nombre + "</td>";
-                        row += "<td>" + o.apellido + "</td>";
-                        row += "<td>" + o.edificio + "</td>";
-                        row += "<td>" + o.departamento + "</td>";
-                        row += "<td>" + o.telefono + "</td>";
-                        row += "<td>" + o.fecha + "</td>";
-                        row += "<td>" + o.vehiculo + "</td>";
-                        row += "<td><a id='bt_editrv' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
-                        row += "<td><a id='bt_confirmar' class='btn-floating waves-effect' ><i class='material-icons red'>delete</i></a></td>";
-                        row += "</tr>";
-                        $("#bodyrv").append(row);
-                    });
+        if (residente == "") {
+            Materialize.toast("Ingrese un rut", "4000");
+        } else {
+            $.ajax({
+                url: base_url + "buscarresidenteeditar",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    residente: residente
+                }, success: function (o) {
+                    if (o.msg === "0") {
+                        Materialize.toast("No existen residentes", "4000");
+                        $("#bodyrv").empty();
+                    } else {
+                        $("#bodyrv").empty();
+                        $.each(o, function (i, o) {
+                            var row = "<tr>";
+                            row += "<td>" + o.rut + "</td>";
+                            row += "<td>" + o.nombre + "</td>";
+                            row += "<td>" + o.apellido + "</td>";
+                            row += "<td>" + o.edificio + "</td>";
+                            row += "<td>" + o.departamento + "</td>";
+                            row += "<td>" + o.telefono + "</td>";
+                            row += "<td>" + o.fecha + "</td>";
+                            row += "<td>" + o.vehiculo + "</td>";
+                            row += "<td><a id='bt_editrv' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
+                            row += "<td><a id='bt_confirmar' class='btn-floating waves-effect' ><i class='material-icons red'>delete</i></a></td>";
+                            row += "</tr>";
+                            $("#bodyrv").append(row);
+                        });
+                    }
+                }, error: function () {
+                    Materialize.toast("Error", "3000");
                 }
-            }, error: function () {
-                Materialize.toast("Error", "3000");
-            }
-        });
+            });
+        }
     });
 
     $("#buscarusereditar").on("click", function (e) {
         var usuario = $("#buscarusuario").val();
-        $.ajax({
-            url: base_url + "buscarUsuarioEditar",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                usuario: usuario
-            }, success: function (o) {
-                if (o.msg === "0") {
-                    Materialize.toast("No existen usuarios", "4000");
-                    $("#bodyusuario").empty();
-                } else {
-                    $("#bodyusuario").empty();
-                    $.each(o, function (i, o) {
-                        var row = "<tr>";
-                        row += "<td>" + o.rut + "</td>";
-                        row += "<td>" + o.nombre + "</td>";
-                        row += "<td>" + o.apellido + "</td>";
-                        row += "<td>" + o.direccion + "</td>";
-                        row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
-                        row += "<td>" + o.correo + "</td>";
-                        row += "<td><a id='bt_editusuario' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
-                        row += "<td><a id='bt_elimusuario' class='btn-floating waves-effect red' ><i class='material-icons'>delete</i></a></td>";
-                        row += "</tr>";
-                        $("#bodyusuario").append(row);
-                    });
+        if (usuario === "") {
+            Materialize.toast("Ingrese un rut", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "buscarUsuarioEditar",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    usuario: usuario
+                }, success: function (o) {
+                    if (o.msg === "0") {
+                        Materialize.toast("No existen usuarios", "4000");
+                        $("#bodyusuario").empty();
+                    } else {
+                        $("#bodyusuario").empty();
+                        $.each(o, function (i, o) {
+                            var row = "<tr>";
+                            row += "<td>" + o.rut + "</td>";
+                            row += "<td>" + o.nombre + "</td>";
+                            row += "<td>" + o.apellido + "</td>";
+                            row += "<td>" + o.direccion + "</td>";
+                            row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
+                            row += "<td>" + o.correo + "</td>";
+                            row += "<td><a id='bt_editusuario' class='btn-floating waves-effect' ><i class='material-icons'>edit</i></a></td>";
+                            row += "<td><a id='bt_elimusuario' class='btn-floating waves-effect red' ><i class='material-icons'>delete</i></a></td>";
+                            row += "</tr>";
+                            $("#bodyusuario").append(row);
+                        });
+                    }
+                }, error: function () {
+                    Materialize.toast("Error", "3000");
                 }
-            }, error: function () {
-                Materialize.toast("Error", "3000");
-            }
-        });
+            });
+        }
+    });
+
+    $("#buscarusereditarh").on("click", function (e) {
+        var usuario = $("#buscarusuarioh").val();
+        if (usuario == "") {
+            Materialize.toast("Ingrese un rut", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "buscarUsuarioEditar",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    usuario: usuario
+                }, success: function (o) {
+                    if (o.msg === "0") {
+                        Materialize.toast("No existen usuarios", "4000");
+                        $("#bodyusuarioh").empty();
+                    } else {
+                        $("#bodyusuarioh").empty();
+                        $.each(o, function (i, o) {
+                            if (o.estado == "0") {
+                                var row = "<tr>";
+                                row += "<td>" + o.rut + "</td>";
+                                row += "<td>" + o.nombre + "</td>";
+                                row += "<td>" + o.apellido + "</td>";
+                                row += "<td>" + o.direccion + "</td>";
+                                row += "<td>" + ((o.tipo === "0") ? "Administrador" : "Guardia") + "</td>";
+                                row += "<td>" + o.correo + "</td>";
+                                row += "<td><a id='habilitaru' class='btn-floating waves-effect green darken-2' ><i class='material-icons'>group_add</i></a></td>";
+                                row += "</tr>";
+                                $("#bodyusuarioh").append(row);
+                            } else {
+                                Materialize.toast("El usuario se encuentra habilitado", "4000");
+                            }
+                        });
+                    }
+                }, error: function () {
+                    Materialize.toast("Error", "3000");
+                }
+            });
+        }
     });
 
     $("body").on("click", "#bt_elimusuario", function (e) {
@@ -1428,25 +1639,28 @@ $(function () {
     $("#bt_quitarestacionamiento").on("click", function (e) {
         e.preventDefault();
         var numero = $("#rnumeroestacionamientoquitar").val();
+        if (numero == "") {
+            Materialize.toast("Error, ingrese un estacionamiento", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "quitarestacionamiento",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    numero: numero
+                },
+                success: function (o) {
 
-        $.ajax({
-            url: base_url + "quitarestacionamiento",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                numero: numero
-            },
-            success: function (o) {
+                    Materialize.toast(o.msg, "3000");
 
-                Materialize.toast(o.msg, "3000");
+                    document.getElementById("formestacionamiento").reset();
 
-                document.getElementById("formestacionamiento").reset();
-
-            },
-            error: function () {
-                Materialize.toast("500", "3000");
-            }
-        });
+                },
+                error: function () {
+                    Materialize.toast("500", "3000");
+                }
+            });
+        }
     });
 
     $("#bt_agregarestacionamientov").on("click", function (e) {
@@ -1455,49 +1669,56 @@ $(function () {
         var nombre = $("#vnombre").val();
         var estado = 0;
 
-        $.ajax({
-            url: base_url + "agregarestacionamientov",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                numero: numero, nombre: nombre, estado: estado
-            },
-            success: function (o) {
-                if (o.msg === "1") {
-                    Materialize.toast("Error el numero Estacionamiento ya existe", "3000");
-                } else {
-                    document.getElementById("formestacionamiento").reset();
-                    Materialize.toast("Estacionamiento registrado con exito", "3000");
+        if (numero == "" || nombre == "") {
+            Materialize.toast("Error, ingrese todos los datos", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "agregarestacionamientov",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    numero: numero, nombre: nombre, estado: estado
+                },
+                success: function (o) {
+                    if (o.msg === "1") {
+                        Materialize.toast("Error el numero Estacionamiento ya existe", "3000");
+                    } else {
+                        document.getElementById("formestacionamiento").reset();
+                        Materialize.toast("Estacionamiento registrado con exito", "3000");
 
+                    }
+                },
+                error: function () {
+                    Materialize.toast("500", "3000");
                 }
-            },
-            error: function () {
-                Materialize.toast("500", "3000");
-            }
-        });
+            });
+        }
     });
 
     $("#bt_quitarestacionamientov").on("click", function (e) {
         e.preventDefault();
         var numero = $("#vnumeroestacionamientoquitar").val();
+        if (numero == "") {
+            Materialize.toast("Error ingrese estacionamiento a eliminar", "3000");
+        } else {
+            $.ajax({
+                url: base_url + "quitarestacionamientov",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    numero: numero
+                },
+                success: function (o) {
 
-        $.ajax({
-            url: base_url + "quitarestacionamientov",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                numero: numero
-            },
-            success: function (o) {
+                    Materialize.toast(o.msg, "3000");
+                    document.getElementById("formestacionamiento").reset();
 
-                Materialize.toast(o.msg, "3000");
-                document.getElementById("formestacionamiento").reset();
-
-            },
-            error: function () {
-                Materialize.toast("500", "3000");
-            }
-        });
+                },
+                error: function () {
+                    Materialize.toast("500", "3000");
+                }
+            });
+        }
     });
 
     $("#selecteditarestacionamiento").on("change", function () {
@@ -1606,6 +1827,12 @@ $(function () {
 
         $("#modaleliminarvehiculo").modal('close');
     });
+    
+    $("body").on("click", "#bt_cancelarmodalhau", function (e) {
+        e.preventDefault();
+
+        $("#modalhabilitarusuario").modal('close');
+    });
 
 
 
@@ -1639,28 +1866,28 @@ $(function () {
         window.location = page;
     });
 
-/*
-    $("#rutcargarestacionamientos").on("click", function (e) {
-        var rut = $("#rutagregarv").val();
-        $.ajax({
-            url: base_url + "key",
-            type: "post",
-            dataType: 'json',
-            async: false,
-            data: {
-                rut: rut
-            },
-            success: function (o) {
-
-                
-
-            },
-            error: function () {
-                Materialize.toast("500", 2000);
-            }
-        });
-
-    }); */
+    /*
+     $("#rutcargarestacionamientos").on("click", function (e) {
+     var rut = $("#rutagregarv").val();
+     $.ajax({
+     url: base_url + "key",
+     type: "post",
+     dataType: 'json',
+     async: false,
+     data: {
+     rut: rut
+     },
+     success: function (o) {
+     
+     
+     
+     },
+     error: function () {
+     Materialize.toast("500", 2000);
+     }
+     });
+     
+     }); */
 
     $("#rutagregarv").keyup(function () {
         var rut = $("#rutagregarv").val();
@@ -1675,7 +1902,7 @@ $(function () {
             },
             success: function (o) {
                 if (o.msg == "0") {
-                    if (rut.length>9) {
+                    if (rut.length > 9) {
                         Materialize.toast("Este residente no tiene estacionamientos", "3000");
                     }
                     $("#numeroagregarv").empty();
@@ -1696,6 +1923,8 @@ $(function () {
         });
 
     });
+    
+    
 
 
 

@@ -64,6 +64,8 @@ $route['crearusuario'] = 'administrador/crearusuario';
 $route['condominios'] = 'administrador/condominios';
 $route['edificios'] = 'administrador/edificios';
 $route['departamentos'] = 'administrador/departamentos';
+$route['departamentos3'] = 'administrador/departamentos3';
+$route['deshabilitarDepa']='administrador/deshabilitarDepa';
 $route['estacionamientosv'] = 'administrador/estacionamientosv';
 $route['agregarestacionamiento'] = 'administrador/agregarestacionamiento';
 $route['agregarestacionamientov'] = 'administrador/agregarestacionamientov';
@@ -95,6 +97,8 @@ $route['paginacionrafa'] = 'administrador/paginacionrafa';
 $route['cambiarRafa'] = 'administrador/cambiarRafa';
 $route['buscarresidenteeditar'] = 'administrador/buscarresidenteeditar';
 $route['buscarUsuarioEditar'] = 'administrador/buscarUsuarioEditar';
+$route['editarusuariohabilitar'] = 'administrador/editarusuariohabilitar';
+$route['ehabilitarUsuario'] = 'administrador/ehabilitarUsuario';
 $route['estacioresidente'] = 'administrador/estacioresidente';
 $route['editarEstacionamiento'] = 'administrador/editarEstacionamiento';
 $route['vehiculoVisita']= 'administrador/vehiculoVisita';
@@ -121,6 +125,8 @@ $route['mostrarvisitas'] = 'administrador/mostrarvisitas';
 $route['dExcel'] = 'administrador/dExcel';
 $route['registro'] = 'administrador/registro';
 $route['vm'] = 'administrador/vxm';
+$route['verreportes'] = 'administrador/verreportes';
+$route['report'] = 'administrador/report';
 //GUARDIA
 $route['guardia'] = 'guardia/index';
 
