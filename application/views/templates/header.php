@@ -90,6 +90,12 @@
             <li class="divider"></li>
 
         </ul>
+        
+        <ul id="reportt" class="dropdown-content">
+            <li><a href="<?php echo base_url(); ?>verreportes">Ver Reporte </a></li>
+            <li class="divider"></li>
+
+        </ul>
 
         <!-- Dropdown item fin -->
         <nav>
@@ -120,6 +126,7 @@
 
                 <li><a href="#" class="dropdown-button white-text"data-activates="edificio">Edificio</a></li>
                 <li><a href="#" class="dropdown-button white-text"data-activates="departamento">Departamento</a></li>
+                <li><a href="#" class="dropdown-button white-text"data-activates="reportt">Reportes</a></li>
             </ul>
 
         </div>

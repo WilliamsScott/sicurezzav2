@@ -156,11 +156,11 @@ class Usuario extends CI_Model {
         return $this->db->update("usuario", $data);
     }
 
-    public function editarRv($rut, $nombre, $apellido, $edificio, $departamento, $vehiculo, $telefono) {
+    public function editarRv($rut, $nombre, $apellido, $edificio, $departamento, $telefono) {
         //buscar por id
         $this->db->where("rut", $rut);
         //armar la data a actualizar
-        $data = array("nombre" => $nombre, "apellido" => $apellido, "edificio" => $edificio, "departamento" => $departamento, "vehiculo" => $vehiculo, "telefono" => $telefono);
+        $data = array("nombre" => $nombre, "apellido" => $apellido, "edificio" => $edificio, "departamento" => $departamento, "telefono" => $telefono);
         return $this->db->update("residente", $data);
     }
     
@@ -268,6 +268,20 @@ JOIN usuario ON usuario.rut = visita.usuario WHERE fecha LIKE '$fecha%'");
     
     public function contar() {
         $x = $this->db->query("select count(*) as 'residentes' from residente");
+        return $x->result();
+    }
+    
+    public function contar2() {
+        $x = $this->db->query("select count(*) as 'vehiculosr' from vehiculor");
+        return $x->result();
+    }
+    public function contar3() {
+        $x = $this->db->query("select count(*) as 'visitas' from visita");
+        return $x->result();
+    }
+    
+    public function contar4() {
+        $x = $this->db->query("select count(*) as 'vehiculosv' from vehiculov");
         return $x->result();
     }
 

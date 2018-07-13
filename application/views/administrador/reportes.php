@@ -1,27 +1,25 @@
 <div class="row">
-    <div class="col s6 offset-s3">
-        <div class="right">
-            <button class="btn waves-effect blue" id="verreportes">Reportes</button>
-            <br><br>
-        </div>
+    <br>
+    <div class="col s6 offset-s3" style="background-color: rgba(20,80,155,0.5)" >
+        <h3 class="white-text center">Reportes</h3>
+        <p id="verrep" class="white-text">
+            
+        </p>
+        <p id="verrep2" class="white-text">
+            
+        </p>
         
-        <table class="bordered white-text">
-                <thead>
-                    <tr>
-                        <th>RUT</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Direccion</th>
-                        <th>Tipo</th>
-                        <th>Correo</th>
-                        <th>Modificar</th>
-                        <th>Deshabilitar</th>
-                    </tr>
-                </thead>
-                <tbody id='reportx'>
-
-                </tbody>
-            </table>
+        <p class="white-text">
+            --------------------------------
+        </p>
+        
+        <p id="verrep3" class="white-text">
+            
+        </p>
+        <p id="verrep4" class="white-text">
+            
+        </p>
+        
     </div>
 </div>
 

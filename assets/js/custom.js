@@ -185,7 +185,7 @@ $(function () {
                             $("#telefonores").val("");
                         },
                         error: function () {
-                            Materialize.toast("gg", "3000");
+                            Materialize.toast("Error", "3000");
                         }
                     });
                 }
@@ -645,7 +645,7 @@ $(function () {
                 }
             },
             error: function () {
-                Materialize.toast("Error", "3000");
+                Materialize.toast("Usuario Habilitado", "3000");
                 $("#modalhabilitarusuario").modal('close');
             }
         });
@@ -1009,7 +1009,7 @@ $(function () {
         var edificio = $("#edificio_rv").val();
         var departamento = $("#departamento_rv").val();
         var telefono = $("#telefono_rv").val();
-        if (rut == "" || nombre == "" || apellido == "" || edificio || departamento == "" || telefono == "") {
+        if (nombre == "" || apellido == "" || edificio == "" || departamento == "" || telefono == "") {
             Materialize.toast("Complete todos los campos", "3000");
         } else {
             $.ajax({
@@ -1109,7 +1109,7 @@ $(function () {
                         },
                         success: function (o) {
                             if (o.msg === "1") {
-                                Materialize.toast("Edificio deshabilitado", "3000");
+                                Materialize.toast("Edificio habilitado", "3000");
                                 $("#codigoEdificio").empty();
                                 cargarEdificioH("codigoEdificio");
                                 document.getElementById("formhabilitare").reset();
@@ -1827,7 +1827,7 @@ $(function () {
 
         $("#modaleliminarvehiculo").modal('close');
     });
-    
+
     $("body").on("click", "#bt_cancelarmodalhau", function (e) {
         e.preventDefault();
 
@@ -1923,8 +1923,55 @@ $(function () {
         });
 
     });
+    report();
+    function report() {
+        var url = base_url + "report";
+        $.getJSON(url, function (result) {
+           // $.each(result, function (i, o) {
+             //   $("#edificiores").append(new Option(o.nombre, o.codigo));
+               // $('select').material_select();
+           // });
+           $("#verrep").text("Residentes: "+result.msg[0].residentes);
+        });
+    }
+    
+    report2();
+    function report2() {
+        var url = base_url + "report2";
+        $.getJSON(url, function (result) {
+           // $.each(result, function (i, o) {
+             //   $("#edificiores").append(new Option(o.nombre, o.codigo));
+               // $('select').material_select();
+           // });
+           $("#verrep2").text("Vehiculos residentes: "+result.msg[0].vehiculosr);
+        });
+    }
     
     
+    report3();
+    function report3() {
+        var url = base_url + "report3";
+        $.getJSON(url, function (result) {
+           // $.each(result, function (i, o) {
+             //   $("#edificiores").append(new Option(o.nombre, o.codigo));
+               // $('select').material_select();
+           // });
+           $("#verrep3").text("Visitas: "+result.msg[0].visitas);
+        });
+    }
+    
+    
+    report4();
+    function report4() {
+        var url = base_url + "report4";
+        $.getJSON(url, function (result) {
+           // $.each(result, function (i, o) {
+             //   $("#edificiores").append(new Option(o.nombre, o.codigo));
+               // $('select').material_select();
+           // });
+           $("#verrep4").text("Vehiculos visitantes: "+result.msg[0].vehiculosv);
+        });
+    }
 
 
 

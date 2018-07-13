@@ -311,6 +311,18 @@ class Administrador extends CI_Controller {
     public function report() {
         echo json_encode(array("msg"=>$this->usuario->contar()));
     }
+    
+    public function report2() {
+        echo json_encode(array("msg"=>$this->usuario->contar2()));
+    }
+    
+    public function report3() {
+        echo json_encode(array("msg"=>$this->usuario->contar3()));
+    }
+    
+    public function report4() {
+        echo json_encode(array("msg"=>$this->usuario->contar4()));
+    }
 
     public function departamentos() {
         $edificio = $this->input->post("edificio");
@@ -523,9 +535,8 @@ class Administrador extends CI_Controller {
         $apellido = $this->input->post("apellido");
         $edificio = $this->input->post("edificio");
         $departamento = $this->input->post("departamento");
-        $vehiculo = $this->input->post("vehiculo");
         $telefono = $this->input->post("telefono");
-        $this->usuario->editarRv($rut, $nombre, $apellido, $edificio, $departamento, $vehiculo, $telefono);
+        $this->usuario->editarRv($rut, $nombre, $apellido, $edificio, $departamento, $telefono);
         echo json_encode(array("msg" => "Residente actualizado"));
     }
 

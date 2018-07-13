@@ -127,6 +127,9 @@ $route['registro'] = 'administrador/registro';
 $route['vm'] = 'administrador/vxm';
 $route['verreportes'] = 'administrador/verreportes';
 $route['report'] = 'administrador/report';
+$route['report2'] = 'administrador/report2';
+$route['report3'] = 'administrador/report3';
+$route['report4'] = 'administrador/report4';
 //GUARDIA
 $route['guardia'] = 'guardia/index';
 
